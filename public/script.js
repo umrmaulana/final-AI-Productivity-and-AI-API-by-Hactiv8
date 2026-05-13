@@ -1,11 +1,28 @@
 const form = document.getElementById("chat-form");
 const input = document.getElementById("user-input");
 const chatBox = document.getElementById("chat-box");
+const submitButton = form.querySelector('button[type="submit"]');
+const promptButtons = document.querySelectorAll(".prompt-btn");
 
 const conversation = [];
+let isLoading = false;
+
+appendMessage(
+  "bot",
+  "Halo. Aku EduBot. Tanya apa aja seputar belajar, nanti aku bantu jelasin dengan santai.",
+);
+
+promptButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    if (isLoading) return;
+    input.value = button.dataset.prompt || "";
+    input.focus();
+  });
+});
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
+  if (isLoading) return;
 
   const userMessage = input.value.trim();
   if (!userMessage) return;
@@ -15,7 +32,8 @@ form.addEventListener("submit", async (event) => {
   input.value = "";
   input.focus();
 
-  const thinkingMessage = appendMessage("bot", "Thinking...");
+  const thinkingMessage = appendMessage("bot", "Lagi mikir sebentar...");
+  setLoadingState(true);
 
   try {
     const response = await fetch("/api/chat", {
@@ -39,7 +57,7 @@ form.addEventListener("submit", async (event) => {
           : "";
 
     if (!botReply) {
-      updateMessage(thinkingMessage, "Sorry, no response received.");
+      updateMessage(thinkingMessage, "Maaf, belum ada respons yang diterima.");
       return;
     }
 
@@ -47,7 +65,10 @@ form.addEventListener("submit", async (event) => {
     conversation.push({ role: "model", text: botReply });
   } catch (error) {
     console.error("Failed to get response from server:", error);
-    updateMessage(thinkingMessage, "Failed to get response from server.");
+    updateMessage(thinkingMessage, "Gagal mengambil respons dari server.");
+  } finally {
+    setLoadingState(false);
+    input.focus();
   }
 });
 
@@ -63,4 +84,10 @@ function appendMessage(sender, text) {
 function updateMessage(messageElement, text) {
   messageElement.textContent = text;
   chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+function setLoadingState(state) {
+  isLoading = state;
+  input.disabled = state;
+  submitButton.disabled = state;
 }

@@ -1,13 +1,18 @@
 # final AI Productivity and AI API by Hactiv8
 
-Simple chatbot web app using Node.js + Express (backend) and Vanilla JavaScript (frontend), integrated with Google Gemini API.
+Chatbot edukasi berbasis AI menggunakan Node.js + Express (backend) dan Vanilla JavaScript (frontend), terintegrasi dengan Google Gemini API.
+
+Bot ini berperan sebagai asisten belajar santai bernama EduBot: fokus pada topik edukasi, penjelasan bertahap, dan jawaban yang mudah dibaca.
 
 ## Features
 
-- Chat UI in browser
-- Express API endpoint at `/api/chat`
-- Gemini response generation
-- Static frontend served from `public/`
+- Education bot persona (gaya santai, ramah, fokus edukasi)
+- Chat UI dark-blue modern dan responsif (desktop + mobile)
+- Quick prompts untuk memulai pertanyaan belajar
+- Express API endpoint di `/api/chat`
+- Riwayat percakapan dikirim sebagai `conversation` agar konteks tetap terjaga
+- Format respons AI dioptimalkan agar lebih mudah dibaca (bullet, paragraf pendek, ringkasan)
+- Frontend statis disajikan dari folder `public/`
 
 ## Project Structure
 
@@ -61,11 +66,11 @@ Request body:
 }
 ```
 
-Current success response:
+Success response:
 
 ```json
 {
-  "response": "<gemini_ai_response>"
+  "result": "<gemini_ai_response>"
 }
 ```
 
@@ -79,5 +84,16 @@ Error response:
 
 ## Notes
 
-- Frontend sends chat history as `conversation` to preserve context.
-- System instruction is configured in backend to answer in Bahasa Indonesia.
+- Frontend mengirim chat history sebagai `conversation` untuk menjaga konteks.
+- Role message yang valid: `user` dan `model`.
+- Backend menggunakan system instruction khusus Education Bot berbahasa Indonesia.
+- Jika ingin ubah karakter bot, edit variabel `BOT_SYSTEM_INSTRUCTION` di `index.js`.
+
+## Use Case
+
+Education Bot untuk membantu:
+
+- Menjelaskan konsep pelajaran sekolah/kuliah
+- Membuat jadwal belajar
+- Memberi contoh soal dan pembahasan
+- Menyusun strategi belajar menjelang ujian

@@ -15,7 +15,7 @@ const ai = new GoogleGenAI({
 
 const GEMINI_MODEL = "gemini-2.5-flash";
 const BOT_SYSTEM_INSTRUCTION = `
-Kamu adalah EduBuddy, asisten belajar yang santai, ramah, dan jelas.
+Kamu adalah Edubot, asisten belajar yang santai, ramah, dan jelas.
 Aturan jawaban:
 1) Selalu gunakan bahasa Indonesia dengan gaya santai tapi sopan.
 2) Fokus utama pada topik edukasi: pelajaran sekolah, konsep akademik, strategi belajar, dan latihan soal.
